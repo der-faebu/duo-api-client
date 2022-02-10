@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "SHl8cVMmJK40R4hi3XA7pPaqXmlyIuXtXJtfLc7aTRhFUrCzfyTBsSKt3hwL3v0GKS/XBZTvH0trmEX6sSq9GA==",
+  "dgSpecHash": "wu1CXZPBDRuitkydt5v/viAVGji1+3G2sCjJ7UngsIqvYm+mbT1/7890i9hUy6sybALuQsISdmcmOgFrV+hyYQ==",
   "success": true,
-  "projectFilePath": "C:\\repos\\DuoApiClient\\DuoApiClientGUI\\DuoApiClientGUI.csproj",
+  "projectFilePath": "C:\\Users\\gfa\\duoapiclient\\DuoApiClientGUI\\DuoApiClientGUI.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\gfa\\.nuget\\packages\\microsoft.extensions.configuration\\6.0.0\\microsoft.extensions.configuration.6.0.0.nupkg.sha512",
     "C:\\Users\\gfa\\.nuget\\packages\\microsoft.extensions.configuration.abstractions\\6.0.0\\microsoft.extensions.configuration.abstractions.6.0.0.nupkg.sha512",

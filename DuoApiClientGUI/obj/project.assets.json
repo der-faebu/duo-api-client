@@ -1730,11 +1730,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\repos\\DuoApiClient\\DuoApiClientGUI\\DuoApiClientGUI.csproj",
+      "projectUniqueName": "C:\\Users\\gfa\\duoapiclient\\DuoApiClientGUI\\DuoApiClientGUI.csproj",
       "projectName": "DuoApiClientGUI",
-      "projectPath": "C:\\repos\\DuoApiClient\\DuoApiClientGUI\\DuoApiClientGUI.csproj",
+      "projectPath": "C:\\Users\\gfa\\duoapiclient\\DuoApiClientGUI\\DuoApiClientGUI.csproj",
       "packagesPath": "C:\\Users\\gfa\\.nuget\\packages\\",
-      "outputPath": "C:\\repos\\DuoApiClient\\DuoApiClientGUI\\obj\\",
+      "outputPath": "C:\\Users\\gfa\\duoapiclient\\DuoApiClientGUI\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\gfa\\AppData\\Roaming\\NuGet\\NuGet.Config",
