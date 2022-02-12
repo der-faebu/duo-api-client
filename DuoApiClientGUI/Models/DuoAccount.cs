@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DuoApiClientGUI.Models.Entities;
 
 namespace DuoApiClientGUI.Models
 {
@@ -15,6 +16,6 @@ namespace DuoApiClientGUI.Models
         public string AccountId { get; set; }
         [JsonProperty("api_hostname")]
         public string ApiHostname { get; set; }
-
+        internal DuoUser[] Users { get; set; }
     }
 }

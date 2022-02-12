@@ -68,7 +68,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.textBox1);
             this.Name = "NewAccountForm";
-            this.Text = "Add a new Account";
+            this.Text = "Add a new CurrentAccount";
             this.ResumeLayout(false);
             this.PerformLayout();
 

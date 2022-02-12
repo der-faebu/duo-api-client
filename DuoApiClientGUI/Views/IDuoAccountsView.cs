@@ -16,7 +16,9 @@ namespace DuoApiClientGUI.Views
         void AddNode(TreeNode treeNode);
 
         event EventHandler SelectionChanged;
-        void SetNodes(TreeNode[] nodes);
+        void SetParentNodes(TreeNode[] nodes);
+        void SetChildNodes(string[] children);
 
+        void SetOptionsElements(TreeNode[] treenodes, TreeNode parentNode);
     }
 }

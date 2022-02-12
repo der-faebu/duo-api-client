@@ -5,6 +5,6 @@ namespace DuoApiClientGUI.BusinessLogic.Services.Authentication
 {
     public interface IAuthHeaderService
     {
-        string CreateAuthHeader(ApiClientCredentials<IDuoApi>? credentials, IDuoApiRequest request);
+        string CreateAuthHeader(ApiClientCredentials<IDuoApi> credentials, IDuoApiRequest request);
     }
 }

@@ -11,10 +11,11 @@ using DuoApiClientGUI.Commands;
 
 namespace DuoApiClientGUI.Views
 {
-    public partial class ToolBarView : UserControl, IToolbarView
+    public partial class AccountsToolBarView : UserControl, IToolbarView
     {
-        public ToolBarView()
+        public AccountsToolBarView()
         {
+            this.Dock = DockStyle.Top;
             InitializeComponent();
         }
 

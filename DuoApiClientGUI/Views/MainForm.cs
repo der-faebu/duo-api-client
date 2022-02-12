@@ -13,19 +13,24 @@ namespace DuoApiClientGUI.Views
     public partial class MainForm : Form, IMainFormView
     {
         private readonly Control _accountsView;
-        public MainForm(AccountsView accountsView, Control toolbarView)
+        private readonly Control _usersListView;
+        private readonly Control _accountsToolbarView;
+        public MainForm(AccountsView accountsView, Control accountsToolbarView, Control usersListView)
         {
             InitializeComponent();
-            toolbarView.Dock = DockStyle.Top;
-            Controls.Add(toolbarView);
             this._accountsView = accountsView;
-            ShowAccountsView();
+            this._usersListView = usersListView;
+            this._accountsToolbarView = accountsToolbarView;
+
+            AddControls();
         }
 
-        public void ShowAccountsView()
+        public void AddControls()
         {
-            splitContainer.Panel1.Controls.Clear();
-            splitContainer.Panel1.Controls.Add(this._accountsView);
+            mainTableLayout.Controls.Add(this._accountsToolbarView,0,0);
+            mainTableLayout.Controls.Add(this._accountsView,0,1);
+            mainTableLayout.Controls.Add(this._usersListView,1,1);
+
         }
 
     }

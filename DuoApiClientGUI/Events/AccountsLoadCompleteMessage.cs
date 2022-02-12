@@ -10,7 +10,7 @@ namespace DuoApiClientGUI.Events
     internal class DuoAccountsLoadCompleteMessage : IApplicationEvent
     {
         private readonly DuoAccount[] _DuoAccounts;
-        public DuoAccountsLoadCompleteMessage(DuoAccount[] DuoAccounts)
+        public DuoAccountsLoadCompleteMessage(DuoAccount[] Accounts)
         {
             this._DuoAccounts = DuoAccounts;
         }

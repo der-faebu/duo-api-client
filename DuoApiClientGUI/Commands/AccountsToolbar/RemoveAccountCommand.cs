@@ -7,36 +7,45 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using DuoApiClientGUI.BusinessLogic;
 using DuoApiClientGUI.BusinessLogic.Services;
-using DuoApiClientGUI.Events;
+using DuoApiClientGUI.Models;
 using DuoApiClientGUI.Properties;
 using DuoApiClientGUI.Views;
 using Microsoft.Extensions.Configuration;
 
 namespace DuoApiClientGUI.Commands
 {
-    internal class AddAccountCommand : CommandBase
+    internal class RemoveAccountCommand : CommandBase
     {
         private readonly IMessageBoxDisplayService _messageBoxDisplayService;
         private readonly IDuoAccountManager _accountManager;
         private readonly IConfiguration _configuration;
+        private readonly IDuoAccountsView _accountView;
 
-        public AddAccountCommand(IMessageBoxDisplayService messageBoxDisplayService,
+        public RemoveAccountCommand(IMessageBoxDisplayService messageBoxDisplayService,
             IDuoAccountManager accountManager,
-            IConfiguration configuration)
+            IConfiguration configuration,
+            IDuoAccountsView accountView)
         {
             this._messageBoxDisplayService = messageBoxDisplayService;
             this._accountManager = accountManager;
             this._configuration = configuration;
-            Icon = Resources.Add;
-            ToolTip = "Add Account";
+            this._accountView = accountView;
+            Icon = Resources.Erase;
+            ToolTip = "Remove CurrentAccount";
         }
 
-        public override async void Execute()
+        public override void Execute()
         {
-            var form = new NewAccountForm();
-            var name = form.ShowDialog() == DialogResult.OK ? form.AccountName : null;
-            _accountManager.AddAccount(name);
-            _accountManager.LoadAccounts(false);
+            var acc = _accountView.SelectedNode.Tag as DuoAccount;
+
+            var result = _messageBoxDisplayService.PromptOkCancel("Do you really want to remove this account? This Action cannot be undone.", 
+                "Remove Account");
+            if (result == DialogResult.OK)
+            {
+                _accountManager.RemoveAccount(acc.AccountId);
+            }
+
+
         }
     }
 }

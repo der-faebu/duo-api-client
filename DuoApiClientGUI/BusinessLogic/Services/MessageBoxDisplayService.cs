@@ -13,5 +13,11 @@ namespace DuoApiClientGUI.BusinessLogic.Services
         {
             MessageBox.Show(message);
         }
+
+        public DialogResult PromptOkCancel(string message, string title)
+        {
+           var result =  MessageBox.Show(message, title, MessageBoxButtons.OKCancel);
+           return result;
+        }
     }
 }

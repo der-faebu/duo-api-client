@@ -14,9 +14,9 @@ namespace DuoApiClientGUI.Views
 {
     public partial class AccountsView : UserControl, IDuoAccountsView
     {
-        List<DuoAccount> accounts = new List<DuoAccount>();
         public AccountsView()
         {
+            this.Dock = DockStyle.Fill;
             InitializeComponent();
             treeViewAccounts.AfterSelect += (s, a) => OnSelectionChanged();
         }
@@ -33,10 +33,16 @@ namespace DuoApiClientGUI.Views
             treeViewAccounts.Nodes.Add(treeNode);
         }
 
-        public void SetNodes(TreeNode[] treeNodes)
+        public void SetParentNodes(TreeNode[] treeNodes)
         {
             treeViewAccounts.Nodes.Clear();
             treeViewAccounts.Nodes.AddRange(treeNodes);
+        }
+
+        public void SetOptionsElements(TreeNode[] treenodes, TreeNode parentNode)
+        {
+            parentNode.Nodes.Clear();
+            parentNode.Nodes.AddRange(treenodes);
         }
         public void RemoveNode(string key)
         {
@@ -44,6 +50,16 @@ namespace DuoApiClientGUI.Views
             treeViewAccounts.Nodes.Remove(node);
         }
 
+        public void SetChildNodes(string[] children)
+        {
+            foreach (TreeNode parentNode in treeViewAccounts.Nodes)
+            {
+                foreach (var child in children)
+                {
+                    parentNode.Nodes.Add(new TreeNode(child));
+                }
+            }
+        }
         public void SelectNode(string key)
         {
             treeViewAccounts.SelectedNode = treeViewAccounts.Nodes[key];

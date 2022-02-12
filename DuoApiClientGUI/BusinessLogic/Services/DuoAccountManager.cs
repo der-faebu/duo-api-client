@@ -11,6 +11,7 @@ using DuoApiClientGUI.Enums;
 using DuoApiClientGUI.Events;
 using DuoApiClientGUI.Models.Api;
 using DuoApiClientGUI.Models.ApiResponses;
+using DuoApiClientGUI.Models.Entities;
 using DuoApiClientGUI.Views;
 using Microsoft.Extensions.Configuration;
 
@@ -22,10 +23,11 @@ namespace DuoApiClientGUI.BusinessLogic
         private readonly IDuoApiRequest _request;
         private readonly IAuthHeaderService _authHeaderService;
         private readonly IConfiguration _config;
-        public IEnumerable<DuoAccount>? Accounts { get; set; }
+        public IEnumerable<DuoAccount> Accounts { get; set; }
 
 
-        public DuoAccountManager(IConfiguration config, ApiClientCredentials<IDuoApi> credentials, IDuoApiRequest request, IAuthHeaderService authHeaderService)
+        public DuoAccountManager(IConfiguration config, ApiClientCredentials<IDuoApi> credentials,
+            IDuoApiRequest request, IAuthHeaderService authHeaderService)
         {
             _authHeaderService = authHeaderService;
             _request = request;
@@ -50,22 +52,32 @@ namespace DuoApiClientGUI.BusinessLogic
             {
                 response = await _request.InvokeRequestAsync(header);
             }
+
             var jsonString = JsonConvert.SerializeObject(response.ResponseData);
 
             Accounts = JsonConvert.DeserializeObject<IEnumerable<DuoAccount>>(jsonString);
             EventAggregator.Instance.Publish(new AccountsLoadedMessage(Accounts.ToArray()));
 
+
         }
+
         public async void AddAccount(string name)
         {
             var parameters = _config.GetSection("Queries:AccountsApi").Get<QueryParameters[]>()
                 .FirstOrDefault(p => p.Name == "CreateAccount");
-            parameters?.SetParameters(new []{name});
+            parameters?.SetParameters(new[] { name });
             _request.PrepareRequest(_credentials, parameters);
             var header = _authHeaderService.CreateAuthHeader(_credentials, _request);
             var response = await _request.InvokeRequestAsync(header);
-            
-            MessageBox.Show($"{response.Code} - {response.Message}");
+            if (response.Status == "OK")
+            {
+                MessageBox.Show($"OK");
+            }
+            else
+            {
+                MessageBox.Show($"{response.Code} - {response.Message}");
+            }
+
             LoadAccounts(false);
         }
 
@@ -74,17 +86,56 @@ namespace DuoApiClientGUI.BusinessLogic
             throw new NotImplementedException();
         }
 
-        public async void RemoveAccount(string account_id)
+        public async void RemoveAccount(string accountId)
         {
             var parameters = _config.GetSection("Queries:AccountsApi").Get<QueryParameters[]>()
                 .FirstOrDefault(p => p.Name == "DeleteAccount");
-            parameters?.SetParameters(new[] { account_id });
+            parameters?.SetParameters(new[] { accountId });
             _request.PrepareRequest(_credentials, parameters);
             var header = _authHeaderService.CreateAuthHeader(_credentials, _request);
             var response = await _request.InvokeRequestAsync(header);
+            if (response.Status == "OK")
+            {
+                MessageBox.Show($"OK");
+            }
+            else
+            {
+                MessageBox.Show($"{response.Code} - {response.Message}");
+            }
 
-            MessageBox.Show($"{response.Code} - {response.Message}");
             LoadAccounts(false);
+        }
+
+        public async Task LoadUsers(string accountId)
+        {
+            var parameters = _config.GetSection("Queries:AccountsApi").Get<QueryParameters[]>()
+                .FirstOrDefault(p => p.Name == "GetUsers");
+            parameters?.SetParameters(new[] { accountId });
+            _request.PrepareRequest(_credentials, parameters);
+            var header = _authHeaderService.CreateAuthHeader(_credentials, _request);
+            try
+            {
+                IApiResponse response = await _request.InvokeRequestAsync(header);
+
+                if (response.Status == "OK")
+                {
+                    MessageBox.Show($"OK");
+                    var jsonString = JsonConvert.SerializeObject(response.ResponseData);
+                    var users = JsonConvert.DeserializeObject<DuoUser[]>(jsonString);
+                    var account = Accounts.FirstOrDefault(a => a.AccountId == accountId);
+                    account.Users = users;
+
+                }
+                else
+                {
+                    MessageBox.Show($"{response.Code} - {response.Message}");
+                }
+
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
         }
     }
 }

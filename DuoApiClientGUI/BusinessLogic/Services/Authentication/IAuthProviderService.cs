@@ -5,7 +5,7 @@ namespace DuoApiClientGUI.BusinessLogic.Services.Authentication
 {
     public interface IAuthProviderService<TDuoApi> 
     {
-        ApiClientCredentials<IDuoApi>? GetCredentials<TDuoApi>();
+        ApiClientCredentials<IDuoApi> GetCredentials<TDuoApi>();
 
     }
 }

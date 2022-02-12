@@ -1,6 +1,6 @@
 ﻿namespace DuoApiClientGUI.Views
 {
-    partial class ToolBarView
+    partial class MainToolBarView
     {
         /// <summary> 
         /// Required designer variable.
@@ -55,7 +55,7 @@
             this.buttonAddAccount.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.buttonAddAccount.Name = "buttonAddAccount";
             this.buttonAddAccount.Size = new System.Drawing.Size(23, 43);
-            this.buttonAddAccount.Text = "Add Account";
+            this.buttonAddAccount.Text = "Add CurrentAccount";
             // 
             // buttonRefreshAccounts
             // 
@@ -80,7 +80,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.toolStrip1);
-            this.Name = "ToolBarView";
+            this.Name = "AccountsToolBarView";
             this.Size = new System.Drawing.Size(656, 46);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();

@@ -1,15 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Net.Http.Json;
-using System.Net.Mime;
+using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using System.Web;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
 using System.Windows.Forms;
-using DuoApiClientGUI.Enums;
 using DuoApiClientGUI.Models.Api;
 using DuoApiClientGUI.Models.ApiResponses;
 using Microsoft.Extensions.Configuration;
@@ -20,25 +18,20 @@ namespace DuoApiClientGUI.Models
 {
     public class DuoApiRequest : IDuoApiRequest
     {
-        private readonly IConfiguration _config;
-        private ApiClientCredentials<IDuoApi>? _credentials;
+        private ApiClientCredentials<IDuoApi> _credentials;
         private static readonly HttpClient client = new HttpClient();
         public string RequestDateTime { get; private set; }
-        public QueryParameters? QueryParameters { get; set; } = new QueryParameters();
+        public QueryParameters QueryParameters { get; set; } = new QueryParameters();
         public string GetMethod()
         {
             return QueryParameters.Method.ToUpper();
         }
 
         public string Host { get; private set; }
-        public string? CanonicalRequest { get; private set; }
-        public Uri? RequestUri { get; private set; }
+        public string CanonicalRequest { get; private set; }
+        public Uri RequestUri { get; private set; }
 
-        public DuoApiRequest(IConfiguration config)
-        {
-            _config = config;
-        }
-        public void PrepareRequest(ApiClientCredentials<IDuoApi>? credentials, QueryParameters? parameters)
+        public void PrepareRequest(ApiClientCredentials<IDuoApi> credentials, QueryParameters parameters)
         {
             this.QueryParameters = parameters;
             if (parameters.Parameters == null)
@@ -49,11 +42,27 @@ namespace DuoApiClientGUI.Models
             {
                 QueryParameters = parameters;
             }
+
             _credentials = credentials;
             Host = _credentials.ApiHost;
             RequestDateTime = GetRfc2822Representation(DateTime.UtcNow);
             CanonicalizeRequest();
             SetRequestUri();
+        }
+
+        private string BuildUriParameterExtension()
+        {
+            var parameters = this.QueryParameters.Parameters;
+            var sb = new StringBuilder();
+            for (int i = 0; i < parameters.Count; i++)
+            {
+                sb.Append(parameters.Keys.ElementAt(i));
+                sb.Append(parameters.Keys.ElementAt(i));
+                while (i != parameters.Count - 1)
+                { sb.Append('&'); }
+            }
+            return sb.ToString();
+
         }
 
         static string GetRfc2822Representation(DateTime dateTime)
@@ -75,8 +84,8 @@ namespace DuoApiClientGUI.Models
             var ret = new List<String>();
             foreach (KeyValuePair<string, string> pair in srotedParams)
             {
-                var key = HttpUtility.UrlEncode(pair.Key);
-                var value = HttpUtility.UrlEncode(pair.Value);
+                var key = WebUtility.UrlEncode(pair.Key);
+                var value = WebUtility.UrlEncode(pair.Value);
                 string p = $"{key}={value}";
 
                 p = FinishCanonicalize(p);
@@ -110,9 +119,9 @@ namespace DuoApiClientGUI.Models
             List<string> lines = new List<string>()
             {
                 RequestDateTime,
-                GetMethod().ToString().ToUpperInvariant(),
+                GetMethod().ToUpperInvariant(),
                 Host.ToLower(),
-                QueryParameters.Path,
+                QueryParameters.Path.Split('?')[0],
                 GetCanonicalParams()
             };
 

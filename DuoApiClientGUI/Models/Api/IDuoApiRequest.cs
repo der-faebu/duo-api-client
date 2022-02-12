@@ -11,12 +11,12 @@ namespace DuoApiClientGUI.Models
     {
         string RequestDateTime { get; }
         string GetMethod();
-        QueryParameters? QueryParameters { get; set; }
+        QueryParameters QueryParameters { get; set; }
         string Host { get; }
-        string? CanonicalRequest { get; }
-        Uri? RequestUri { get; }
+        string CanonicalRequest { get; }
+        Uri RequestUri { get; }
 
-        void PrepareRequest(ApiClientCredentials<IDuoApi>? credentials, QueryParameters? parameters);
+        void PrepareRequest(ApiClientCredentials<IDuoApi> credentials, QueryParameters parameters);
 
         Task<IApiResponse> InvokeRequestAsync(string authHeader);
     }

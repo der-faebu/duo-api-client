@@ -8,11 +8,11 @@ using DuoApiClientGUI.Views;
 
 namespace DuoApiClientGUI.Presenters
 {
-    internal class ToolbarPresenter
+    internal class AccountsToolbarPresenter
     {
-        public ToolbarPresenter(ToolBarView toolBarView, IToolbarCommand[] commands)
+        public AccountsToolbarPresenter(AccountsToolBarView accountsToolBarView, IToolbarCommand[] commands)
         {
-            toolBarView.SetCommands(commands);
+            accountsToolBarView.SetCommands(commands);
         }
     }
 }

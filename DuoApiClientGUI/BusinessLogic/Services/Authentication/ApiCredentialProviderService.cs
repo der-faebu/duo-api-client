@@ -19,10 +19,10 @@ namespace DuoApiClientGUI.BusinessLogic.Services.Authentication
             _config = config;
         }
 
-        public ApiClientCredentials<IDuoApi>? GetCredentials<T>()
+        public ApiClientCredentials<IDuoApi> GetCredentials<T>()
         {
             var apiString = typeof(T).Name;
-            ApiClientCredentials<IDuoApi>? test = _config.GetSection("Apis")
+            ApiClientCredentials<IDuoApi> test = _config.GetSection("Apis")
                 .Get<ApiClientCredentials<IDuoApi>[]>()
                 .FirstOrDefault(a => a.Name == apiString);
             return test;

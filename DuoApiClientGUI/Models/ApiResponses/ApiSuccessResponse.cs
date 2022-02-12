@@ -13,10 +13,10 @@ namespace DuoApiClientGUI.Models.ApiResponses
         public string Code { get; set; }
         [JsonProperty("response")]
         [JsonConverter(typeof(SingleOrArrayConverter<Dictionary<string, object>>))]
-        public List<Dictionary<string, object>>? ResponseData { get; set; }
-        [JsonProperty("metadata")] public Dictionary<string, object>? Metadata { get; set; }
-        public string? Message { get; set; }
-        public string? MessageDetail { get; set; }
+        public List<Dictionary<string, object>> ResponseData { get; set; }
+        [JsonProperty("metadata")] public Dictionary<string, object> Metadata { get; set; }
+        public string Message { get; set; }
+        public string MessageDetail { get; set; }
 
         public ApiSuccessResponse()
         {

@@ -19,7 +19,7 @@ namespace DuoApiClientGUI.BusinessLogic.Services.Authentication
             _config = config;
         }
 
-        public string CreateAuthHeader(ApiClientCredentials<IDuoApi>? credentials, IDuoApiRequest request)
+        public string CreateAuthHeader(ApiClientCredentials<IDuoApi> credentials, IDuoApiRequest request)
         {
             _logger.LogInformation("Called CreateAuthHeader.");
             var signedRequest = HmacSign(request, credentials);
@@ -35,7 +35,7 @@ namespace DuoApiClientGUI.BusinessLogic.Services.Authentication
             return $"{method} {headerValue}";
         }
         
-        string HmacSign(IDuoApiRequest request, ApiClientCredentials<IDuoApi>? credentials)
+        string HmacSign(IDuoApiRequest request, ApiClientCredentials<IDuoApi> credentials)
         {
             var data = request.CanonicalRequest;
             byte[] keyBytes = ASCIIEncoding.ASCII.GetBytes(credentials.SecretKey);
@@ -48,7 +48,7 @@ namespace DuoApiClientGUI.BusinessLogic.Services.Authentication
             return hex.Replace("-", "").ToLower();
         }
 
-        private static string Encode64(string signedRequest, ApiClientCredentials<IDuoApi>? credentials)
+        private static string Encode64(string signedRequest, ApiClientCredentials<IDuoApi> credentials)
         {
             var credentialsToEncode = $"{credentials.IntegrationKey}:{signedRequest}";
             byte[] plaintextBytes = ASCIIEncoding.ASCII.GetBytes(credentialsToEncode);

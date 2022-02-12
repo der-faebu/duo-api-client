@@ -39,25 +39,34 @@ namespace DuoApiClientGUI
 
             // Forms specific initialisation
             var accountManager = new DuoAccountManager(configuration, adminCreds, request, authHeaderService);
+            var adminManager = new DuoAdminManager(configuration, adminCreds, request, authHeaderService);
 
             // Views
-            var toolbarView = new ToolBarView();
+            var toolbarView = new AccountsToolBarView();
             var accountsView = new AccountsView();
-            accountsView.Tag = new DuoAccountsPresenter(accountsView);
+            var usersListView = new DuoUsersListView();
+            
+
 
             // commands
             var commands = new IToolbarCommand[]
             {
                 new AddAccountCommand(messageBoxDisplayService, accountManager, configuration),
                 new RefreshAccountsCommand(messageBoxDisplayService, accountManager, configuration),
-                new RemoveAccountCommand(messageBoxDisplayService, accountManager, configuration,accountsView)
+                new RemoveAccountCommand(messageBoxDisplayService, accountManager, configuration,accountsView),
+                new ShowAccountDetailsCommand(messageBoxDisplayService, accountManager, configuration,accountsView)
             };
 
-            var mainForm = new MainForm(accountsView, toolbarView);
-            mainForm.Tag = new MainFormPresenter(mainForm, accountManager);
-            mainForm.Tag = new ToolbarPresenter(toolbarView, commands);
+            var mainForm = new MainForm(accountsView, toolbarView, usersListView);
 
-            Application.SetHighDpiMode(HighDpiMode.SystemAware);
+            
+            // tag presenters to their forms
+            accountsView.Tag = new AccountPresenter(configuration,accountsView);
+            mainForm.Tag = new MainFormPresenter(mainForm, accountManager);
+            mainForm.Tag = new AccountsToolbarPresenter(toolbarView, commands);
+            mainForm.Tag = new UsersListPresenter(usersListView);
+
+            //Application.SetHighDpiMode(HighDpiMode.SystemAware);
             Application.EnableVisualStyles();
             // Application.Run(new AdminsForm(adminCreds, request, authHeaderService));
             Application.Run(mainForm);

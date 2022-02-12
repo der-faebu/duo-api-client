@@ -4,40 +4,39 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using DuoApiClientGUI.BusinessLogic;
 using DuoApiClientGUI.BusinessLogic.Services;
-using DuoApiClientGUI.Models;
+using DuoApiClientGUI.Events;
 using DuoApiClientGUI.Properties;
 using DuoApiClientGUI.Views;
 using Microsoft.Extensions.Configuration;
 
 namespace DuoApiClientGUI.Commands
 {
-    internal class RemoveAccountCommand : CommandBase
+    internal class AddAccountCommand : CommandBase
     {
         private readonly IMessageBoxDisplayService _messageBoxDisplayService;
         private readonly IDuoAccountManager _accountManager;
         private readonly IConfiguration _configuration;
-        private readonly IDuoAccountsView _accountView;
 
-        public RemoveAccountCommand(IMessageBoxDisplayService messageBoxDisplayService,
+        public AddAccountCommand(IMessageBoxDisplayService messageBoxDisplayService,
             IDuoAccountManager accountManager,
-            IConfiguration configuration,
-            IDuoAccountsView accountView)
+            IConfiguration configuration)
         {
             this._messageBoxDisplayService = messageBoxDisplayService;
             this._accountManager = accountManager;
             this._configuration = configuration;
-            this._accountView = accountView;
-            Icon = Resources.Erase;
-            ToolTip = "Remove Account";
+            Icon = Resources.Add;
+            ToolTip = "Add CurrentAccount";
         }
 
-        public override async void Execute()
+        public override void Execute()
         {
-            var acc = _accountView.SelectedNode.Tag as DuoAccount;
-          _accountManager.RemoveAccount(acc.AccountId);
-
+            var form = new NewAccountForm();
+            var name = form.ShowDialog() == DialogResult.OK ? form.AccountName : null;
+            _accountManager.AddAccount(name);
+            _accountManager.LoadAccounts(false);
         }
     }
 }
